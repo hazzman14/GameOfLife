@@ -12,7 +12,7 @@
 
 // Add the minimal number of includes you need in order to declare the class.
 // #include ...
-
+#include <vector>
 /**
  * A Cell is a char limited to two named values for Cell::DEAD and Cell::ALIVE.
  */
@@ -31,6 +31,8 @@ class Grid {
     unsigned int total_cells;
     unsigned int alive_cells;
     unsigned int dead_cells;
+    std::vector<Cell> cell_grid;
+    
     
     public:
     Grid();
@@ -43,7 +45,8 @@ class Grid {
     const unsigned  int get_total_cells() const;
     const unsigned  int get_alive_cells() const;
     const unsigned  int get_dead_cells() const;
-
+    void resize(unsigned int square_size);
+    void resize(unsigned int width,unsigned int height);
     // How to draw an owl:
     //      Step 1. Draw a circle.
     //      Step 2. Draw the rest of the owl.

@@ -12,6 +12,7 @@
  * @date March, 2020
  */
 #include "grid.h"
+#include <vector>
 
 // Include the minimal number of headers needed to support your implementation.
 // #include ...
@@ -30,7 +31,7 @@
  *
  */
     Grid::Grid(): width(0), height(0), total_cells(0), alive_cells(0), dead_cells(0){
-
+        
     }
 
      Grid::~Grid(){
@@ -61,7 +62,11 @@
  *      The edge size to use for the width and height of the grid.
  */
     Grid::Grid(unsigned int square_size): width(square_size),height(square_size),total_cells(square_size*square_size),alive_cells(0), dead_cells(square_size*square_size){
-
+        for(unsigned int i = 0; i < height; i++){
+            for(unsigned int j = 0; j < width; i++){
+                cell_grid.push_back(Cell::DEAD);
+            }
+        }
     }
 
 /**
@@ -82,7 +87,11 @@
  */
 
     Grid::Grid(unsigned int width, unsigned int height): width(width), height(height), total_cells(height*width),alive_cells(0), dead_cells(width*height) {
-        
+        for(unsigned int i = 0; i < height; i++){
+            for(unsigned int j = 0; j < width; i++){
+                cell_grid.push_back(Cell::DEAD);
+            }
+        }
     }
 
 /**
@@ -240,7 +249,11 @@
  *      The new edge size for both the width and height of the grid.
  */
 
-
+    void Grid::resize(unsigned int square_size){
+        this->width = square_size;
+        this->height = square_size;
+        this->total_cells = square_size * square_size;
+    }
 /**
  * Grid::resize(width, height)
  *
@@ -261,7 +274,11 @@
  * @param new_height
  *      The new height for the grid.
  */
-
+     void Grid::resize(unsigned int new_width, unsigned int new_height){
+        this->width = new_width;
+        this->height = new_height;
+        this->total_cells = new_width*new_height;
+    }
 
 /**
  * Grid::get_index(x, y)
@@ -279,7 +296,7 @@
  * @return
  *      The 1d offset from the start of the data array where the desired cell is located.
  */
-
+ 
 
 /**
  * Grid::get(x, y)
@@ -309,7 +326,7 @@
  * @throws
  *      std::exception or sub-class if x,y is not a valid coordinate within the grid.
  */
-
+    
 
 /**
  * Grid::set(x, y, value)
@@ -337,7 +354,7 @@
  * @throws
  *      std::exception or sub-class if x,y is not a valid coordinate within the grid.
  */
-
+   
 
 /**
  * Grid::operator()(x, y)
