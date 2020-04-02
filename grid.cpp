@@ -8,13 +8,14 @@
  *
  * You are encouraged to use STL container types as an underlying storage mechanism for the grid cells.
  *
- * @author YOUR_STUDENT_NUMBER
+ * @author 954519
  * @date March, 2020
  */
 #include "grid.h"
 
 // Include the minimal number of headers needed to support your implementation.
 // #include ...
+
 
 /**
  * Grid::Grid()
@@ -28,7 +29,43 @@
  *      Grid grid;
  *
  */
+    Grid::Grid(): width(0), height(0), total_cells(0), alive_cells(0), dead_cells(0){
 
+    }
+
+     Grid::~Grid(){
+
+    }
+
+    Grid::Grid(unsigned int square_size): width(square_size),height(square_size),total_cells(square_size*square_size),alive_cells(0), dead_cells(square_size*square_size){
+
+    }
+
+    Grid::Grid(unsigned int width, unsigned int height): width(width), height(height), total_cells(height*width),alive_cells(0), dead_cells(width*height) {
+        
+    }
+
+   
+    
+    const unsigned int Grid::get_width() const{
+        return width;
+    }
+
+    const unsigned int Grid::get_height() const{
+        return height;
+    }
+
+    const unsigned int Grid::get_total_cells() const{
+        return total_cells;
+    }
+
+    const unsigned int Grid::get_alive_cells() const{
+        return alive_cells;
+    }
+
+    const unsigned int Grid::get_dead_cells() const{
+        return dead_cells;
+    }
 
 /**
  * Grid::Grid(square_size)
