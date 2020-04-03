@@ -212,7 +212,7 @@
  * @return
  *      The number of alive cells.
  */
-    const unsigned int Grid::get_alive_cells() {
+    const unsigned int Grid::get_alive_cells()const {
 
         unsigned int alive_cells = 0;
 
@@ -253,7 +253,7 @@
  * @return
  *      The number of dead cells.
  */
-    const unsigned int Grid::get_dead_cells() {
+    const unsigned int Grid::get_dead_cells() const{
 
         unsigned int dead_cells = 0;
 
@@ -361,7 +361,7 @@
  * @return
  *      The 1d offset from the start of the data array where the desired cell is located.
  */
-    unsigned int Grid::get_index(unsigned int x, unsigned int y) {
+    const unsigned int Grid::get_index(unsigned int x, unsigned int y)const {
         return ((x+width*y));
     }
 
@@ -393,7 +393,7 @@
  * @throws
  *      std::exception or sub-class if x,y is not a valid coordinate within the grid.
  */
-    Cell Grid::get(unsigned int x, unsigned int y){
+    const Cell Grid::get(unsigned int x, unsigned int y)const{
         return cell_grid[get_index(x,y)];
     }
 
@@ -462,7 +462,10 @@
  * @throws
  *      std::runtime_error or sub-class if x,y is not a valid coordinate within the grid.
  */
-
+    Cell Grid::operator()(unsigned int x, unsigned int y){
+          Cell value = cell_grid[get_index(x,y)];
+          return value;
+    }
 
 /**
  * Grid::operator()(x, y)
@@ -494,8 +497,10 @@
  * @throws
  *      std::exception or sub-class if x,y is not a valid coordinate within the grid.
  */
-
-
+    const Cell Grid::operator()(unsigned int x, unsigned int y)const{
+          const Cell &value = cell_grid[get_index(x,y)];
+          return value;
+    }
 /**
  * Grid::crop(x0, y0, x1, y1)
  *
@@ -530,7 +535,21 @@
  *      std::exception or sub-class if x0,y0 or x1,y1 are not valid coordinates within the grid
  *      or if the crop window has a negative size.
  */
+    const Grid Grid::crop(unsigned int x0,unsigned int y0,unsigned int x1,unsigned int y1)const {
+         std::vector<Cell> temp;
+         unsigned int diffx = x1-x0;
+         unsigned int diffy = y1-y0;
+         Grid newGrid = Grid(diffx,diffy);
 
+        for(unsigned int i = y0; i < y1; i++){
+                for(unsigned int j = x0; j < x1; j++){
+                        temp.push_back(cell_grid[get_index(j,i)]);
+                }
+        }
+
+        newGrid.cell_grid = temp;
+        return newGrid;
+    }
 
 /**
  * Grid::merge(other, x0, y0, alive_only = false)
