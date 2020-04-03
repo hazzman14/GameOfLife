@@ -65,7 +65,7 @@
                     for(unsigned int j = 0; j < square_size; j++){
                         cell_grid.push_back(Cell::DEAD);
                     }
-                }
+        }
       
     }
 
@@ -87,14 +87,11 @@
  */
 
     Grid::Grid(unsigned int width, unsigned int height): width(width), height(height){
-
         for(unsigned int i = 0; i < height; i++){
                     for(unsigned int j = 0; j < width; j++){
                         cell_grid.push_back(Cell::DEAD);
                     }
-                }
-              
-      
+        }  
     }
 
     Grid::~Grid(){
@@ -185,7 +182,7 @@
                     for(unsigned int j = 0; j < width; j++){
                         total_cells++;
                     }
-                }
+        }
         return total_cells;
     }
 
@@ -213,7 +210,6 @@
  *      The number of alive cells.
  */
     const unsigned int Grid::get_alive_cells()const {
-
         unsigned int alive_cells = 0;
 
        for(unsigned int i = 0; i < height; i++){
@@ -223,9 +219,8 @@
                         }
                         
                     }
-                }
+        }
               
-       
         return alive_cells;
     }
 
@@ -264,7 +259,7 @@
                        }
 
                     }
-                }
+        }
               
         return dead_cells;
     }
@@ -463,7 +458,7 @@
  *      std::runtime_error or sub-class if x,y is not a valid coordinate within the grid.
  */
     Cell Grid::operator()(unsigned int x, unsigned int y){
-          Cell value = cell_grid[get_index(x,y)];
+          Cell& value = cell_grid[get_index(x,y)];
           return value;
     }
 
@@ -498,7 +493,7 @@
  *      std::exception or sub-class if x,y is not a valid coordinate within the grid.
  */
     const Cell Grid::operator()(unsigned int x, unsigned int y)const{
-          const Cell &value = cell_grid[get_index(x,y)];
+          const Cell& value = cell_grid[get_index(x,y)];
           return value;
     }
 /**
@@ -588,7 +583,22 @@
  * @throws
  *      std::exception or sub-class if the other grid being placed does not fit within the bounds of the current grid.
  */
-
+    void Grid::merge(Grid other,unsigned int x0, unsigned int y0, bool alive_only){
+       
+        for(unsigned int i = y0; i < y0+other.get_height(); i++){
+            for(unsigned int j = x0; j < x0+other.get_width(); j++){
+                if (alive_only==true){
+                    if(other.get(j-x0,i-y0)==Cell::ALIVE){
+                        set(j,i,Cell::ALIVE);
+                    }
+                } else{
+                    set(j,i,other.get(j-x0,i-y0));
+                }
+            }
+        }
+       
+        
+    }
 
 /**
  * Grid::rotate(rotation)
