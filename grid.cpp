@@ -12,10 +12,12 @@
  * @date March, 2020
  */
 #include "grid.h"
-#include <vector>
+
 
 // Include the minimal number of headers needed to support your implementation.
 // #include ...
+#include <vector>
+#include <iostream>
 
 
 /**
@@ -30,13 +32,10 @@
  *      Grid grid;
  *
  */
-    Grid::Grid(): width(0), height(0), total_cells(0), alive_cells(0), dead_cells(0){
+    Grid::Grid(): Grid(0){
         
     }
 
-     Grid::~Grid(){
-
-    }
 
 /**
  * Grid::Grid(square_size)
@@ -61,12 +60,13 @@
  * @param square_size
  *      The edge size to use for the width and height of the grid.
  */
-    Grid::Grid(unsigned int square_size): width(square_size),height(square_size),total_cells(square_size*square_size),alive_cells(0), dead_cells(square_size*square_size){
-        for(unsigned int i = 0; i < height; i++){
-            for(unsigned int j = 0; j < width; i++){
-                cell_grid.push_back(Cell::DEAD);
-            }
-        }
+    Grid::Grid(unsigned int square_size): width(square_size),height(square_size){
+        for(unsigned int i = 0; i < square_size; i++){
+                    for(unsigned int j = 0; j < square_size; j++){
+                        cell_grid.push_back(Cell::DEAD);
+                    }
+                }
+      
     }
 
 /**
@@ -86,12 +86,19 @@
  *      The height of the grid.
  */
 
-    Grid::Grid(unsigned int width, unsigned int height): width(width), height(height), total_cells(height*width),alive_cells(0), dead_cells(width*height) {
+    Grid::Grid(unsigned int width, unsigned int height): width(width), height(height){
+
         for(unsigned int i = 0; i < height; i++){
-            for(unsigned int j = 0; j < width; i++){
-                cell_grid.push_back(Cell::DEAD);
-            }
-        }
+                    for(unsigned int j = 0; j < width; j++){
+                        cell_grid.push_back(Cell::DEAD);
+                    }
+                }
+              
+      
+    }
+
+    Grid::~Grid(){
+
     }
 
 /**
@@ -173,6 +180,12 @@
  */
 
     const unsigned int Grid::get_total_cells() const{
+       unsigned int total_cells = 0;
+        for(unsigned int i = 0; i < height; i++){
+                    for(unsigned int j = 0; j < width; j++){
+                        total_cells++;
+                    }
+                }
         return total_cells;
     }
 
@@ -199,7 +212,20 @@
  * @return
  *      The number of alive cells.
  */
-    const unsigned int Grid::get_alive_cells() const{
+    const unsigned int Grid::get_alive_cells() {
+
+        unsigned int alive_cells = 0;
+
+       for(unsigned int i = 0; i < height; i++){
+                    for(unsigned int j = 0; j < width; j++){
+                        if(cell_grid[get_index(j, i)]==Cell::ALIVE){
+                            alive_cells++;
+                        }
+                        
+                    }
+                }
+              
+       
         return alive_cells;
     }
 
@@ -227,7 +253,19 @@
  * @return
  *      The number of dead cells.
  */
-    const unsigned int Grid::get_dead_cells() const{
+    const unsigned int Grid::get_dead_cells() {
+
+        unsigned int dead_cells = 0;
+
+        for(unsigned int i = 0; i < height; i++){
+                    for(unsigned int j = 0; j < width; j++){
+                       if (cell_grid[get_index(j,i)]==Cell::DEAD){
+                        dead_cells++;
+                       }
+
+                    }
+                }
+              
         return dead_cells;
     }
 
@@ -250,9 +288,21 @@
  */
 
     void Grid::resize(unsigned int square_size){
+        std::vector<Cell> temp;
+    
+        for(unsigned int i = 0; i < square_size; i++){
+                for(unsigned int j = 0; j < square_size; j++){
+                    if((j<width) && (i<height)){
+                        temp.push_back(cell_grid[get_index(j,i)]);
+                    } else{
+                        temp.push_back(Cell::DEAD);
+                    }   
+                }
+        }
+
+        this->cell_grid = temp;
         this->width = square_size;
         this->height = square_size;
-        this->total_cells = square_size * square_size;
     }
 /**
  * Grid::resize(width, height)
@@ -274,10 +324,25 @@
  * @param new_height
  *      The new height for the grid.
  */
+
+
      void Grid::resize(unsigned int new_width, unsigned int new_height){
+
+        std::vector<Cell> temp;
+
+        for(unsigned int i = 0; i < new_height; i++){
+                for(unsigned int j = 0; j < new_width; j++){
+                    if((j<width) && (i<height)){
+                        temp.push_back(cell_grid[get_index(j,i)]);
+                    } else{
+                        temp.push_back(Cell::DEAD);
+                    }   
+                }
+        }
+
+        this->cell_grid = temp;
         this->width = new_width;
         this->height = new_height;
-        this->total_cells = new_width*new_height;
     }
 
 /**
@@ -296,7 +361,9 @@
  * @return
  *      The 1d offset from the start of the data array where the desired cell is located.
  */
- 
+    unsigned int Grid::get_index(unsigned int x, unsigned int y) {
+        return ((x+width*y));
+    }
 
 /**
  * Grid::get(x, y)
@@ -326,7 +393,9 @@
  * @throws
  *      std::exception or sub-class if x,y is not a valid coordinate within the grid.
  */
-    
+    Cell Grid::get(unsigned int x, unsigned int y){
+        return cell_grid[get_index(x,y)];
+    }
 
 /**
  * Grid::set(x, y, value)
@@ -355,7 +424,9 @@
  *      std::exception or sub-class if x,y is not a valid coordinate within the grid.
  */
    
-
+    void Grid::set(unsigned int x, unsigned int y, Cell value){
+        cell_grid[get_index(x,y)] = value;
+    }
 /**
  * Grid::operator()(x, y)
  *
@@ -559,4 +630,3 @@
  * @return
  *      Returns a reference to the output stream to enable operator chaining.
  */
-
