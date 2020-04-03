@@ -60,13 +60,8 @@
  * @param square_size
  *      The edge size to use for the width and height of the grid.
  */
-    Grid::Grid(unsigned int square_size): width(square_size),height(square_size){
-        for(unsigned int i = 0; i < square_size; i++){
-                    for(unsigned int j = 0; j < square_size; j++){
-                        cell_grid.push_back(Cell::DEAD);
-                    }
-        }
-      
+    Grid::Grid(unsigned int square_size): Grid(square_size,square_size){
+        
     }
 
 /**
@@ -597,7 +592,7 @@
             }
         }
        
-        
+    
     }
 
 /**
@@ -622,7 +617,7 @@
  * @return
  *      Returns a copy of the grid that has been rotated.
  */
-
+  
 
 /**
  * operator<<(output_stream, grid)
