@@ -720,4 +720,36 @@
  *      Returns a reference to the output stream to enable operator chaining.
  */
 
-   
+   std::ostream& operator<<(std::ostream& os, const Grid& grid){
+        //first line
+        os << "+" ;
+        for(unsigned int i = 0; i < (grid.get_width()); i++){
+            os << "-" ;
+        }
+        os << "+" ;
+        os << "\n";
+
+        for(unsigned int i = 0; i < grid.get_height(); i++){
+            os << "|" ;
+            for(unsigned int j = 0; j < grid.get_width(); j++){
+        
+                if(grid.get(j,i)==Cell::ALIVE){
+                    os << '#';
+                } else{
+                    os << ' ';
+                }
+            }
+            os << "|" ;
+            os << "\n";
+        }
+
+        //fnal line
+        os << "+" ;
+        for(unsigned int i = 0; i < (grid.get_width()); i++){
+            os << "-" ;
+        }
+        os << "+" ;
+        os << "\n";
+        
+        return os;
+    }
