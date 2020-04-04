@@ -63,6 +63,6 @@ class Grid {
 
     friend std::ostream& operator<<(std::ostream& os, const Grid& grid);
     // How to draw an owl:
-    //      Step 1. Draw a circle.
-    //      Step 2. Draw the rest of the owl.
+    //     Step 1. Draw a circle.
+    //     Step 2. Draw the rest of the owl.
 };
