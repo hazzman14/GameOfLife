@@ -212,7 +212,6 @@
                         if(cell_grid[get_index(j, i)]==Cell::ALIVE){
                             alive_cells++;
                         }
-                        
                     }
         }
               
@@ -617,6 +616,72 @@
  * @return
  *      Returns a copy of the grid that has been rotated.
  */
+  const Grid Grid::rotate(int _rotation) const{
+
+      int number_of_rotations = ((_rotation % 4) + 4) % 4;
+      unsigned int new_width;
+      unsigned int new_height;
+      std::vector<Cell> temp_cell;
+      
+      
+      //switch width and height or not 
+      if(number_of_rotations == 1 || number_of_rotations == 3){
+        //90 or 270 degrees
+        //switch
+        new_width = get_height();
+        new_height = get_width();
+      } else {
+        //360 or 0 degrees
+        //dont switch
+        new_width = get_width();
+        new_height = get_height();
+      } 
+
+    Grid new_grid = Grid(new_width,new_height);
+
+    if(number_of_rotations == 0 ){
+        //do nothing
+        new_grid = Grid(get_width(),get_height());
+        new_grid.cell_grid = cell_grid;
+
+    } else if(number_of_rotations == 1){
+
+        //resize a temp cell to have the new width and height and all dead cells
+        temp_cell.resize(new_width*new_height,Cell::DEAD);
+        // set new grids cells to be the same as temp
+        new_grid.cell_grid = temp_cell;
+        //loop through old height and clear
+        for (unsigned int i=0; i< get_height(); i++){
+            temp_cell.clear();
+            //loop old width  and push current cells onto temp
+            for (unsigned int j=0; j< get_width(); j++){
+                temp_cell.push_back(get(j,i));
+            }
+            //loop newgrids height 
+            for (unsigned int k=0; k<new_grid.get_height(); k++){
+                Cell front = temp_cell.front();
+                //set new grid to have (new width-(height+1)),new height, front of temp
+                new_grid.set(new_grid.get_width()-(i+1),k,front);
+                //erase temp cell?
+                temp_cell.erase(temp_cell.begin());
+            }
+        }
+
+    } else if(number_of_rotations == 2){
+
+    new_grid = rotate(1);
+    Grid temp_grid = new_grid.rotate(1);
+    new_grid = temp_grid;
+
+    } else if(number_of_rotations == 3){
+
+    new_grid = rotate(1);
+    Grid temp_grid = new_grid.rotate(1);
+    new_grid = temp_grid.rotate(1);
+      
+    }
+    return new_grid;
+  }
   
 
 /**
@@ -654,3 +719,5 @@
  * @return
  *      Returns a reference to the output stream to enable operator chaining.
  */
+
+   
