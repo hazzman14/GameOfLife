@@ -390,7 +390,7 @@
                         new_i = 0;
                     }
                         //will either pass out of bounds new value or normal j and i
-                    if(current_grid.get(new_j,new_i)==Cell::ALIVE){
+                    if(!((new_i==y) && (new_j==x)) && current_grid.get(new_j,new_i)==Cell::ALIVE){
                         neighbours++;
                     }
                         
