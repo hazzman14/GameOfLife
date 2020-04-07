@@ -25,6 +25,7 @@ class World {
   
     Grid current_grid;
     Grid next_grid;
+    unsigned int count_neighbours(int x, int y, bool toroidal);
 
     public:
     World();
@@ -41,6 +42,8 @@ class World {
     const Grid& get_state()const;
     void resize(unsigned int square_size);
     void resize(unsigned int new_width, unsigned int new_height);
+    void step(bool toroidal = false);
+    void advance(unsigned int steps, bool toroidal = false);
     // How to draw an owl:
     //      Step 1. Draw a circle.
     //      Step 2. Draw the rest of the owl.

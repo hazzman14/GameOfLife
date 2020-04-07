@@ -21,11 +21,15 @@
  * @author YOUR_STUDENT_NUMBER
  * @date March, 2020
  */
-#include "zoo.h"
+
 
 // Include the minimal number of headers needed to support your implementation.
 // #include ...
-
+#include "grid.h"
+#include "world.h"
+#include "zoo.h"
+#include <fstream>
+#include <iostream>
 /**
  * Zoo::glider()
  *
