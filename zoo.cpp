@@ -50,7 +50,15 @@
  * @return
  *      Returns a Grid containing a glider.
  */
-
+    Grid Zoo::glider(){
+        Grid glider(3,3);
+        glider.set(1,0,Cell::ALIVE);
+        glider.set(2,1,Cell::ALIVE);
+        glider.set(0,2,Cell::ALIVE);
+        glider.set(1,2,Cell::ALIVE);
+        glider.set(2,2,Cell::ALIVE);
+        return glider;
+    }
 
 /**
  * Zoo::r_pentomino()
@@ -72,7 +80,15 @@
  * @return
  *      Returns a Grid containing a r-pentomino.
  */
-
+    Grid Zoo::r_pentomino(){
+        Grid r_pentomino(3,3);
+        r_pentomino.set(1,0,Cell::ALIVE);
+        r_pentomino.set(2,0,Cell::ALIVE);
+        r_pentomino.set(0,1,Cell::ALIVE);
+        r_pentomino.set(1,1,Cell::ALIVE);
+        r_pentomino.set(1,2,Cell::ALIVE);
+        return r_pentomino;
+    }
 
 /**
  * Zoo::light_weight_spaceship()
@@ -95,7 +111,19 @@
  * @return
  *      Returns a grid containing a light weight spaceship.
  */
-
+    Grid Zoo::light_weight_spaceship(){
+        Grid light_weight_spaceship(5,4);
+        light_weight_spaceship.set(1,0,Cell::ALIVE);
+        light_weight_spaceship.set(4,0,Cell::ALIVE);
+        light_weight_spaceship.set(0,1,Cell::ALIVE);
+        light_weight_spaceship.set(0,2,Cell::ALIVE);
+        light_weight_spaceship.set(4,2,Cell::ALIVE);
+        light_weight_spaceship.set(0,3,Cell::ALIVE);
+        light_weight_spaceship.set(1,3,Cell::ALIVE);
+        light_weight_spaceship.set(2,3,Cell::ALIVE);
+        light_weight_spaceship.set(3,3,Cell::ALIVE);
+        return light_weight_spaceship;
+    }
 
 /**
  * Zoo::load_ascii(path)

@@ -455,10 +455,7 @@
         temp = current_grid;
         current_grid = next_grid;
         next_grid = temp;
-       
-        
-
-
+      
     }
 
 /**

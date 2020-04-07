@@ -414,7 +414,7 @@
  */
    
     void Grid::set(unsigned int x, unsigned int y, Cell value){
-        cell_grid[get_index(x,y)] = value;
+        Grid::operator()(x, y) = value;
     }
 /**
  * Grid::operator()(x, y)
