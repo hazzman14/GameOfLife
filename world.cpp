@@ -365,14 +365,11 @@
 
         
          for(int i = y-1; i<=y+1;i++){
-             
             for(int j = x-1; j<=x+1;j++){
-                
                 new_j = j;
                 new_i = i;
-                
+
                 if(toroidal==true){
-                    
                         //if width is too small
                     if(j==-1){
                         new_j = current_grid.get_width()+j;
@@ -389,7 +386,7 @@
                     if((unsigned int)i==current_grid.get_height()){
                         new_i = 0;
                     }
-                        //will either pass out of bounds new value or normal j and i
+                    //if its not itself and is alive then increment
                     if(!((new_i==y) && (new_j==x)) && current_grid.get(new_j,new_i)==Cell::ALIVE){
                         neighbours++;
                     }
@@ -400,10 +397,8 @@
                         if((j==-1) || (i==-1) || ((unsigned int)j==current_grid.get_width()) || ((unsigned int)i == current_grid.get_height())){
                             new_j = x;
                             new_i = y;
-                            
-                            //if its in bounds not toroidal
                         }
-
+                        //if its not itself and is alive
                         if((!((new_i==y) && (new_j==x)) && (current_grid.get(new_j,new_i)==Cell::ALIVE))){
                             neighbours++;
                         }

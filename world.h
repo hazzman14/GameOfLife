@@ -29,7 +29,7 @@ class World {
 
     public:
     World();
-    World(unsigned int square_size);
+    explicit World(unsigned int square_size);
     World(unsigned int width,unsigned int height);
     World(Grid initial_state);
     ~World();

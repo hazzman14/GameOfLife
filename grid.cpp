@@ -209,7 +209,7 @@
 
        for(unsigned int i = 0; i < height; i++){
                     for(unsigned int j = 0; j < width; j++){
-                        if(cell_grid[get_index(j, i)]==Cell::ALIVE){
+                        if(get(j,i)==Cell::ALIVE){
                             alive_cells++;
                         }
                     }
@@ -248,7 +248,7 @@
 
         for(unsigned int i = 0; i < height; i++){
                     for(unsigned int j = 0; j < width; j++){
-                       if (cell_grid[get_index(j,i)]==Cell::DEAD){
+                       if (get(j,i)==Cell::DEAD){
                         dead_cells++;
                        }
 
@@ -282,7 +282,7 @@
         for(unsigned int i = 0; i < square_size; i++){
                 for(unsigned int j = 0; j < square_size; j++){
                     if((j<width) && (i<height)){
-                        temp.push_back(cell_grid[get_index(j,i)]);
+                        temp.push_back(get(j,i));
                     } else{
                         temp.push_back(Cell::DEAD);
                     }   
@@ -322,7 +322,7 @@
         for(unsigned int i = 0; i < new_height; i++){
                 for(unsigned int j = 0; j < new_width; j++){
                     if((j<width) && (i<height)){
-                        temp.push_back(cell_grid[get_index(j,i)]);
+                        temp.push_back(get(j,i));
                     } else{
                         temp.push_back(Cell::DEAD);
                     }   
@@ -532,7 +532,7 @@
 
         for(unsigned int i = y0; i < y1; i++){
                 for(unsigned int j = x0; j < x1; j++){
-                        temp.push_back(cell_grid[get_index(j,i)]);
+                        temp.push_back(get(j,i));
                 }
         }
 

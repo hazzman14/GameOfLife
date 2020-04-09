@@ -35,7 +35,7 @@ class Grid {
     
     public:
     Grid();
-    Grid(unsigned int square_size);
+    explicit Grid(unsigned int square_size);
     Grid(unsigned int width,unsigned int height);
     ~Grid();
 

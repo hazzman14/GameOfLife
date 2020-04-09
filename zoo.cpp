@@ -149,7 +149,7 @@
  *          - Newline characters are not found when expected during parsing.
  *          - The character for a cell is not the ALIVE or DEAD character.
  */
-
+    
 
 /**
  * Zoo::save_ascii(path, grid)
