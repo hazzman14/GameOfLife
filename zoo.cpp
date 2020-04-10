@@ -30,6 +30,7 @@
 #include "zoo.h"
 #include <fstream>
 #include <iostream>
+
 /**
  * Zoo::glider()
  *
@@ -149,7 +150,37 @@
  *          - Newline characters are not found when expected during parsing.
  *          - The character for a cell is not the ALIVE or DEAD character.
  */
-    
+    Grid Zoo::load_ascii(std::string path){
+        //std::string line; to store a whole line (buffer)
+        //std::getline(in,line); 
+
+        //read in lines
+        //loop through all width by height cells and for each character if(get(x,y)==Cell::ALIVE) set(j,i) to alive
+        int width;
+        int height;
+        std::ifstream inputFile(path);
+        inputFile >> width;
+        inputFile >> height;
+
+
+        std::string line;
+        getline(inputFile,line);
+  
+        //make the grid
+        Grid ascii_grid(width,height);
+        //manipulate each line
+        for(int i = 0; i < height; i++){
+            getline(inputFile,line);
+            for(int j = 0; j < height; j++){
+                if(line.substr(j,1) == "#"){
+                    ascii_grid.set(j,i,Cell::ALIVE);
+                } else{
+                    ascii_grid.set(j,i,Cell::DEAD);
+                }
+            }
+        }
+        return ascii_grid;
+    }
 
 /**
  * Zoo::save_ascii(path, grid)
