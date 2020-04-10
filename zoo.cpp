@@ -210,7 +210,27 @@
  * @throws
  *      Throws std::runtime_error or sub-class if the file cannot be opened.
  */
+    void Zoo::save_ascii(std::string path, Grid grid){
+        std::ofstream outputFile(path,std::ofstream::out);
 
+        //put the width and height at the top with a space
+        outputFile << grid.get_width() << " " << grid.get_height();
+
+        for(unsigned int i = 0; i < grid.get_height(); i++){
+            //new line every height change
+            outputFile << "\n";
+            for(unsigned int j = 0; j < grid.get_width(); j++){
+                if(grid.get(j,i)==Cell::ALIVE){
+                    outputFile << '#';
+                } else{
+                    outputFile << ' ';
+                }
+                
+            }
+        }
+        //final new line added at the end
+        outputFile << "\n";
+    }
 
 /**
  * Zoo::load_binary(path)
@@ -234,7 +254,9 @@
  *          - The file cannot be opened.
  *          - The file ends unexpectedly.
  */
+    Grid Zoo::load_binary(std::string path){
 
+    }
 
 /**
  * Zoo::save_binary(path, grid)
@@ -264,4 +286,7 @@
  * @throws
  *      Throws std::runtime_error or sub-class if the file cannot be opened.
  */
+    void Zoo::save_binary(std::string path, Grid grid){
+
+    }
 
