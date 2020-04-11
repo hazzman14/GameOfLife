@@ -30,7 +30,8 @@
 #include "zoo.h"
 #include <fstream>
 #include <iostream>
-
+#include <bitset>
+#include <math.h>
 /**
  * Zoo::glider()
  *
@@ -256,6 +257,55 @@
  */
     Grid Zoo::load_binary(std::string path){
 
+        std::ifstream inputFile(path, std::ifstream::binary);
+
+        //find length of file
+        inputFile.seekg(0,inputFile.end);
+        int length = inputFile.tellg();
+
+        //set to beginning
+        inputFile.seekg(0,inputFile.beg);
+    
+        char buffer[length];
+
+        //start after width and height (8 bytes)
+        inputFile.read(buffer,8);
+        
+        //get width and height, 4 bytes each
+        int width = buffer[0];;
+        int height = buffer[4];;
+       
+        //make the grid
+        Grid binary_grid(width,height);
+        //make vector
+        std::vector<Cell> cells;
+
+        // 36/8 = 4.5 bytes round to 5, last 4 bits not needed(padding)
+        double decimal =(double)(width*height)/8;
+        int number_of_bytes = ceil(decimal);
+
+        //loop through bits, checking value and pushing to vector
+        for(int i = 0; i <number_of_bytes; i++){
+            //store byte values into bitset
+            std::bitset<8> bits(inputFile.get());
+            //go through each bit and push to vector
+            for(int j = 0; j <8; j++){
+                if(bits.test(j)){
+                    cells.push_back(Cell::ALIVE);
+                }else{
+                    cells.push_back(Cell::DEAD);
+                }
+            }
+        }
+        //set the grid with vectors values
+        for(unsigned int i = 0; i < binary_grid.get_height();i++){
+            for(unsigned int j = 0; j < binary_grid.get_width();j++){
+                binary_grid.set(j,i,cells.at(j+width*i));
+            }
+        }
+        
+        inputFile.close();
+        return binary_grid;
     }
 
 /**
@@ -287,6 +337,7 @@
  *      Throws std::runtime_error or sub-class if the file cannot be opened.
  */
     void Zoo::save_binary(std::string path, Grid grid){
+        
 
     }
 
