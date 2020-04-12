@@ -33,6 +33,7 @@
 #include <bitset>
 #include <math.h>
 #include <stdexcept>
+
 /**
  * Zoo::glider()
  *
@@ -153,35 +154,44 @@
  *          - The character for a cell is not the ALIVE or DEAD character.
  */
     Grid Zoo::load_ascii(std::string path){
-        //std::string line; to store a whole line (buffer)
-        //std::getline(in,line); 
-
-        //read in lines
-        //loop through all width by height cells and for each character if(get(x,y)==Cell::ALIVE) set(j,i) to alive
-        int width;
-        int height;
         std::ifstream inputFile(path);
-        inputFile >> width;
-        inputFile >> height;
-
-
-        std::string line;
-        getline(inputFile,line);
-  
-        //make the grid
-        Grid ascii_grid(width,height);
-        //manipulate each line
-        for(int i = 0; i < height; i++){
-            getline(inputFile,line);
-            for(int j = 0; j < height; j++){
-                if(line.substr(j,1) == "#"){
-                    ascii_grid.set(j,i,Cell::ALIVE);
-                } else{
-                    ascii_grid.set(j,i,Cell::DEAD);
-                }
+        if(!inputFile){
+            throw std::runtime_error("file doesnt exist");
+        }else{
+            int width;
+            int height;
+                
+            inputFile >> width;
+            inputFile >> height;
+            if(width<0||height<0){
+                throw std::runtime_error("size out of bounds");
+            }else{
+                std::string line;
+                getline(inputFile,line);
+                    //make the grid
+                    Grid ascii_grid(width,height);
+                    //manipulate each line
+                    for(int i = 0; i < height; i++){
+                        getline(inputFile,line);
+                        if((int)line.length()>width){
+                        throw std::runtime_error("new line expected");
+                        }else{
+                            for(int j = 0; j < width; j++){
+                                if(line.substr(j,1) == "#"){
+                                    ascii_grid.set(j,i,Cell::ALIVE);
+                                } else if(line.substr(j,1) == " "){
+                                    ascii_grid.set(j,i,Cell::DEAD);
+                                }else{
+                                    throw std::runtime_error("unexpected character");
+                                }
+                            }
+                        }
+                    }
+                return ascii_grid;
             }
+
         }
-        return ascii_grid;
+
     }
 
 /**

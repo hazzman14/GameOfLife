@@ -9,7 +9,7 @@
  * @date March, 2020
  */
 #pragma once
-
+#include "grid.h"
 // Add the minimal number of includes you need in order to declare the namespace.
 // #include ...
 
