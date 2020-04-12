@@ -257,7 +257,7 @@
  */
     Grid Zoo::load_binary(std::string path){
 
-        std::ifstream inputFile(path, std::ifstream::binary);
+        std::ifstream inputFile(path);
 
         //find length of file
         inputFile.seekg(0,inputFile.end);
@@ -272,8 +272,8 @@
         inputFile.read(buffer,8);
         
         //get width and height, 4 bytes each
-        int width = buffer[0];;
-        int height = buffer[4];;
+        int width = buffer[0];
+        int height = buffer[4];
        
         //make the grid
         Grid binary_grid(width,height);
@@ -337,7 +337,44 @@
  *      Throws std::runtime_error or sub-class if the file cannot be opened.
  */
     void Zoo::save_binary(std::string path, Grid grid){
-        
-
+       
+        std::ofstream outputFile(path);
+        int width = grid.get_width();
+        int height = grid.get_height();
+        //put width and height in
+        outputFile.write((char*)&width,4);
+        outputFile.write((char*)&height,4);
+        std::bitset<8> bits;
+        int counter = 0;
+        //loop through all values, if alive set nth value of bitset to 1 else 0
+        for(unsigned int i = 0; i < grid.get_height();i++){
+            for(unsigned int j = 0; j < grid.get_width();j++){ 
+                if(grid.get(j,i)==Cell::ALIVE){
+                    bits.set(counter,1); 
+                } else{
+                    bits.set(counter,0);
+                }
+                //when counter is 7 the bitset is full, write it to file and reset counter
+                if (counter == 7){
+                    outputFile.write((char*)&bits,1);
+                    counter=0;
+                }else{
+                    counter++;
+                }
+            }
+        }
+        //when you need to pad out the last bitset
+        if(counter != 0){
+            //loop from wherever it stopped to the end
+            for(int i = counter;i<7;i++){
+                //if the bitset is being padded with negative set it to 0 else 1
+                if(bits.test(counter-1)==0){
+                    bits.set(i,0);
+                }else{
+                    bits.set(i,1);
+                }
+                outputFile.write((char*)&bits,1);
+            }
+        }
     }
 
