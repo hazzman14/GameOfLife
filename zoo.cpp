@@ -224,7 +224,9 @@
  */
     void Zoo::save_ascii(std::string path, Grid grid){
         std::ofstream outputFile(path,std::ofstream::out);
-
+        if(!outputFile){
+            throw std::runtime_error("directory doesnt exist");
+        }else{
         //put the width and height at the top with a space
         outputFile << grid.get_width() << " " << grid.get_height();
 
@@ -242,6 +244,7 @@
         }
         //final new line added at the end
         outputFile << "\n";
+        }
     }
 
 /**
