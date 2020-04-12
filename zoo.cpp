@@ -32,6 +32,7 @@
 #include <iostream>
 #include <bitset>
 #include <math.h>
+#include <stdexcept>
 /**
  * Zoo::glider()
  *

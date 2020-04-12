@@ -18,6 +18,7 @@
 // #include ...
 #include <vector>
 #include <iostream>
+#include <stdexcept>
 
 
 /**
@@ -277,21 +278,7 @@
  */
 
     void Grid::resize(unsigned int square_size){
-        std::vector<Cell> temp;
-    
-        for(unsigned int i = 0; i < square_size; i++){
-                for(unsigned int j = 0; j < square_size; j++){
-                    if((j<width) && (i<height)){
-                        temp.push_back(get(j,i));
-                    } else{
-                        temp.push_back(Cell::DEAD);
-                    }   
-                }
-        }
-
-        this->cell_grid = temp;
-        this->width = square_size;
-        this->height = square_size;
+        resize(square_size,square_size);
     }
 /**
  * Grid::resize(width, height)
@@ -383,7 +370,11 @@
  *      std::exception or sub-class if x,y is not a valid coordinate within the grid.
  */
     const Cell Grid::get(unsigned int x, unsigned int y)const{
-        return cell_grid[get_index(x,y)];
+        if(x>get_width()||x<0||y>get_height() || y<0){
+            throw std::runtime_error("get out of bounds.");
+        }else{
+            return cell_grid.at(get_index(x,y));
+        }
     }
 
 /**
@@ -414,7 +405,7 @@
  */
    
     void Grid::set(unsigned int x, unsigned int y, Cell value){
-        Grid::operator()(x, y) = value;
+        operator()(x, y) = value;
     }
 /**
  * Grid::operator()(x, y)
@@ -452,8 +443,13 @@
  *      std::runtime_error or sub-class if x,y is not a valid coordinate within the grid.
  */
     Cell& Grid::operator()(unsigned int x, unsigned int y){
-          Cell& value = cell_grid[get_index(x,y)];
-          return value;
+        if(x>get_width()||y>get_width()||x<0||y<0){
+            throw std::runtime_error("Grid::operator() out of bounds.");
+        }else{
+            Cell& value = cell_grid.at(get_index(x,y));
+            return value;
+        }
+
     }
 
 /**
@@ -487,8 +483,12 @@
  *      std::exception or sub-class if x,y is not a valid coordinate within the grid.
  */
     const Cell& Grid::operator()(unsigned int x, unsigned int y)const{
-          const Cell& value = cell_grid[get_index(x,y)];
+        if(x>get_width()||y>get_width()||x<0||y<0){
+            throw std::runtime_error("Grid::operator() out of bounds.");
+        }else{
+          const Cell& value = cell_grid.at(get_index(x,y));
           return value;
+        }
     }
 /**
  * Grid::crop(x0, y0, x1, y1)
@@ -525,19 +525,23 @@
  *      or if the crop window has a negative size.
  */
     const Grid Grid::crop(unsigned int x0,unsigned int y0,unsigned int x1,unsigned int y1)const {
-         std::vector<Cell> temp;
-         unsigned int diffx = x1-x0;
-         unsigned int diffy = y1-y0;
-         Grid newGrid = Grid(diffx,diffy);
+        if(x0<0||x0>x1||y0<0||y0>y1||x1>get_width()||y1>get_height()){
+            throw std::runtime_error("crop out of bounds.");
+        }else{
+        std::vector<Cell> temp;
+        unsigned int diffx = x1-x0;
+        unsigned int diffy = y1-y0;
+        Grid newGrid = Grid(diffx,diffy);
 
         for(unsigned int i = y0; i < y1; i++){
-                for(unsigned int j = x0; j < x1; j++){
-                        temp.push_back(get(j,i));
-                }
+            for(unsigned int j = x0; j < x1; j++){
+                temp.push_back(get(j,i));
+            }
         }
 
         newGrid.cell_grid = temp;
         return newGrid;
+        }
     }
 
 /**
@@ -577,21 +581,23 @@
  * @throws
  *      std::exception or sub-class if the other grid being placed does not fit within the bounds of the current grid.
  */
-    void Grid::merge(Grid other,unsigned int x0, unsigned int y0, bool alive_only){
-       
-        for(unsigned int i = y0; i < y0+other.get_height(); i++){
-            for(unsigned int j = x0; j < x0+other.get_width(); j++){
-                if (alive_only==true){
-                    if(other.get(j-x0,i-y0)==Cell::ALIVE){
-                        set(j,i,Cell::ALIVE);
+    void Grid::merge(Grid other,int x0,int y0, bool alive_only){
+        
+        if(x0<0||x0+other.get_width()>get_width()||y0<0||y0+other.get_height()>get_height()){
+            throw std::runtime_error("merge out of bounds.");
+        }else{
+            for(unsigned int i = y0; i < y0+other.get_height(); i++){
+                for(unsigned int j = x0; j < x0+other.get_width(); j++){
+                    if (alive_only==true){
+                        if(other.get(j-x0,i-y0)==Cell::ALIVE){
+                            set(j,i,Cell::ALIVE);
+                        }
+                    } else{
+                        set(j,i,other.get(j-x0,i-y0));
                     }
-                } else{
-                    set(j,i,other.get(j-x0,i-y0));
                 }
             }
-        }
-       
-    
+        }  
     }
 
 /**

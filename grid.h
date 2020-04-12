@@ -57,7 +57,7 @@ class Grid {
 
     const Grid crop(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1)const;
 
-    void merge(Grid other,unsigned int x0, unsigned int y0, bool alive_only = false);
+    void merge(Grid other,int x0, int y0, bool alive_only = false);
 
     const Grid rotate(int _rotation) const;
 
