@@ -5,29 +5,31 @@
  * The test suites provide granular BDD style (Behaviour Driven Development) test cases
  * which will help further understand the specification you need to code to.
  *
- * @author YOUR_STUDENT_NUMBER
+ * @author 954519
  * @date March, 2020
  */
 #pragma once
-#include "grid.h"
 // Add the minimal number of includes you need in order to declare the namespace.
 // #include ...
-
+#include "grid.h"
 /**
  * Declare the interface of the Zoo namespace for constructing lifeforms and saving and loading them from file.
  */
-namespace Zoo {
-    
-    Grid glider();
-    Grid r_pentomino();
-    Grid light_weight_spaceship();
-    Grid load_ascii(std::string path);
-    void save_ascii(std::string path, Grid grid);
-    Grid load_binary(std::string path);
-    void save_binary(std::string path, Grid grid);
+namespace Zoo
+{
 
-    // How to draw an owl:
-    //      Step 1. Draw a circle.
-    //      Step 2. Draw the rest of the owl.
+Grid glider();
+Grid r_pentomino();
+Grid light_weight_spaceship();
 
-};
+Grid load_ascii(std::string path);
+void save_ascii(std::string path, Grid grid);
+
+Grid load_binary(std::string path);
+void save_binary(std::string path, Grid grid);
+
+// How to draw an owl:
+//      Step 1. Draw a circle.
+//      Step 2. Draw the rest of the owl.
+
+}; // namespace Zoo

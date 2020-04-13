@@ -18,10 +18,9 @@
  *                padded with zero or more 0 bits.
  *              - a 0 bit should be considered Cell::DEAD, a 1 bit should be considered Cell::ALIVE.
  *
- * @author YOUR_STUDENT_NUMBER
+ * @author 954519
  * @date March, 2020
  */
-
 
 // Include the minimal number of headers needed to support your implementation.
 // #include ...
@@ -54,15 +53,18 @@
  * @return
  *      Returns a Grid containing a glider.
  */
-    Grid Zoo::glider(){
-        Grid glider(3,3);
-        glider.set(1,0,Cell::ALIVE);
-        glider.set(2,1,Cell::ALIVE);
-        glider.set(0,2,Cell::ALIVE);
-        glider.set(1,2,Cell::ALIVE);
-        glider.set(2,2,Cell::ALIVE);
-        return glider;
-    }
+Grid Zoo::glider()
+{
+    Grid glider(3, 3);
+
+    glider.set(1, 0, Cell::ALIVE);
+    glider.set(2, 1, Cell::ALIVE);
+    glider.set(0, 2, Cell::ALIVE);
+    glider.set(1, 2, Cell::ALIVE);
+    glider.set(2, 2, Cell::ALIVE);
+
+    return glider;
+}
 
 /**
  * Zoo::r_pentomino()
@@ -84,15 +86,18 @@
  * @return
  *      Returns a Grid containing a r-pentomino.
  */
-    Grid Zoo::r_pentomino(){
-        Grid r_pentomino(3,3);
-        r_pentomino.set(1,0,Cell::ALIVE);
-        r_pentomino.set(2,0,Cell::ALIVE);
-        r_pentomino.set(0,1,Cell::ALIVE);
-        r_pentomino.set(1,1,Cell::ALIVE);
-        r_pentomino.set(1,2,Cell::ALIVE);
-        return r_pentomino;
-    }
+Grid Zoo::r_pentomino()
+{
+    Grid r_pentomino(3, 3);
+
+    r_pentomino.set(1, 0, Cell::ALIVE);
+    r_pentomino.set(2, 0, Cell::ALIVE);
+    r_pentomino.set(0, 1, Cell::ALIVE);
+    r_pentomino.set(1, 1, Cell::ALIVE);
+    r_pentomino.set(1, 2, Cell::ALIVE);
+
+    return r_pentomino;
+}
 
 /**
  * Zoo::light_weight_spaceship()
@@ -115,19 +120,22 @@
  * @return
  *      Returns a grid containing a light weight spaceship.
  */
-    Grid Zoo::light_weight_spaceship(){
-        Grid light_weight_spaceship(5,4);
-        light_weight_spaceship.set(1,0,Cell::ALIVE);
-        light_weight_spaceship.set(4,0,Cell::ALIVE);
-        light_weight_spaceship.set(0,1,Cell::ALIVE);
-        light_weight_spaceship.set(0,2,Cell::ALIVE);
-        light_weight_spaceship.set(4,2,Cell::ALIVE);
-        light_weight_spaceship.set(0,3,Cell::ALIVE);
-        light_weight_spaceship.set(1,3,Cell::ALIVE);
-        light_weight_spaceship.set(2,3,Cell::ALIVE);
-        light_weight_spaceship.set(3,3,Cell::ALIVE);
-        return light_weight_spaceship;
-    }
+Grid Zoo::light_weight_spaceship()
+{
+    Grid light_weight_spaceship(5, 4);
+
+    light_weight_spaceship.set(1, 0, Cell::ALIVE);
+    light_weight_spaceship.set(4, 0, Cell::ALIVE);
+    light_weight_spaceship.set(0, 1, Cell::ALIVE);
+    light_weight_spaceship.set(0, 2, Cell::ALIVE);
+    light_weight_spaceship.set(4, 2, Cell::ALIVE);
+    light_weight_spaceship.set(0, 3, Cell::ALIVE);
+    light_weight_spaceship.set(1, 3, Cell::ALIVE);
+    light_weight_spaceship.set(2, 3, Cell::ALIVE);
+    light_weight_spaceship.set(3, 3, Cell::ALIVE);
+
+    return light_weight_spaceship;
+}
 
 /**
  * Zoo::load_ascii(path)
@@ -153,46 +161,66 @@
  *          - Newline characters are not found when expected during parsing.
  *          - The character for a cell is not the ALIVE or DEAD character.
  */
-    Grid Zoo::load_ascii(std::string path){
-        std::ifstream inputFile(path);
-        if(!inputFile){
-            throw std::runtime_error("file doesnt exist");
-        }else{
-            int width;
-            int height;
-                
-            inputFile >> width;
-            inputFile >> height;
-            if(width<0||height<0){
-                throw std::runtime_error("size out of bounds");
-            }else{
-                std::string line;
-                getline(inputFile,line);
-                    //make the grid
-                    Grid ascii_grid(width,height);
-                    //manipulate each line
-                    for(int i = 0; i < height; i++){
-                        getline(inputFile,line);
-                        if((int)line.length()>width){
-                        throw std::runtime_error("new line expected");
-                        }else{
-                            for(int j = 0; j < width; j++){
-                                if(line.substr(j,1) == "#"){
-                                    ascii_grid.set(j,i,Cell::ALIVE);
-                                } else if(line.substr(j,1) == " "){
-                                    ascii_grid.set(j,i,Cell::DEAD);
-                                }else{
-                                    throw std::runtime_error("unexpected character");
-                                }
-                            }
+Grid Zoo::load_ascii(std::string path)
+{
+    std::ifstream inputFile(path);
+    if (!inputFile)
+    {
+        throw std::runtime_error("file doesnt exist");
+    }
+    else
+    {
+        //create and set width and height
+        int width;
+        int height;
+
+        inputFile >> width;
+        inputFile >> height;
+        if (width < 0 || height < 0)
+        {
+            throw std::runtime_error("size out of bounds");
+        }
+        else
+        {
+            //get the line into line variable
+            std::string line;
+            getline(inputFile, line);
+            //make the grid
+            Grid ascii_grid(width, height);
+            //manipulate each line
+            for (int y = 0; y < height; y++)
+            {
+                //get new line every height
+                getline(inputFile, line);
+                if ((int)line.length() > width)
+                {
+                    throw std::runtime_error("new line expected");
+                }
+                else
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        //set the cell to dead or alive depending on ascii character
+                        if (line.substr(x, 1) == "#")
+                        {
+                            ascii_grid.set(x, y, Cell::ALIVE);
+                        }
+                        else if (line.substr(x, 1) == " ")
+                        {
+                            ascii_grid.set(x, y, Cell::DEAD);
+                        }
+                        else
+                        {
+                            throw std::runtime_error("unexpected character");
                         }
                     }
-                return ascii_grid;
+                }
             }
-
+            inputFile.close();
+            return ascii_grid;
         }
-
     }
+}
 
 /**
  * Zoo::save_ascii(path, grid)
@@ -222,30 +250,39 @@
  * @throws
  *      Throws std::runtime_error or sub-class if the file cannot be opened.
  */
-    void Zoo::save_ascii(std::string path, Grid grid){
-        std::ofstream outputFile(path,std::ofstream::out);
-        if(!outputFile){
-            throw std::runtime_error("directory doesnt exist");
-        }else{
+void Zoo::save_ascii(std::string path, Grid grid)
+{
+    std::ofstream outputFile(path, std::ofstream::out);
+    if (!outputFile)
+    {
+        throw std::runtime_error("directory doesnt exist");
+    }
+    else
+    {
         //put the width and height at the top with a space
         outputFile << grid.get_width() << " " << grid.get_height();
 
-        for(unsigned int i = 0; i < grid.get_height(); i++){
+        for (unsigned int y = 0; y < grid.get_height(); y++)
+        {
             //new line every height change
             outputFile << "\n";
-            for(unsigned int j = 0; j < grid.get_width(); j++){
-                if(grid.get(j,i)==Cell::ALIVE){
+            for (unsigned int x = 0; x < grid.get_width(); x++)
+            {
+                //if its alive add a # to file otherwise add a space
+                if (grid.get(x, y) == Cell::ALIVE)
+                {
                     outputFile << '#';
-                } else{
+                }
+                else
+                {
                     outputFile << ' ';
                 }
-                
             }
         }
         //final new line added at the end
         outputFile << "\n";
-        }
     }
+}
 
 /**
  * Zoo::load_binary(path)
@@ -269,58 +306,81 @@
  *          - The file cannot be opened.
  *          - The file ends unexpectedly.
  */
-    Grid Zoo::load_binary(std::string path){
+Grid Zoo::load_binary(std::string path)
+{
 
-        std::ifstream inputFile(path);
+    std::ifstream inputFile(path);
+    if (!inputFile)
+    {
+        throw std::runtime_error("file doesnt exist");
+    }
+    else
+    {
 
         //find length of file
-        inputFile.seekg(0,inputFile.end);
+        inputFile.seekg(0, inputFile.end);
         int length = inputFile.tellg();
 
         //set to beginning
-        inputFile.seekg(0,inputFile.beg);
-    
+        inputFile.seekg(0, inputFile.beg);
+
         char buffer[length];
 
         //start after width and height (8 bytes)
-        inputFile.read(buffer,8);
-        
+        inputFile.read(buffer, 8);
+
         //get width and height, 4 bytes each
         int width = buffer[0];
         int height = buffer[4];
+
        
-        //make the grid
-        Grid binary_grid(width,height);
-        //make vector
+        Grid binary_grid(width, height);
         std::vector<Cell> cells;
 
         // 36/8 = 4.5 bytes round to 5, last 4 bits not needed(padding)
-        double decimal =(double)(width*height)/8;
+        double decimal = (double)(width * height) / 8;
         int number_of_bytes = ceil(decimal);
 
         //loop through bits, checking value and pushing to vector
-        for(int i = 0; i <number_of_bytes; i++){
+        for (int i = 0; i < number_of_bytes; i++)
+        {
             //store byte values into bitset
             std::bitset<8> bits(inputFile.get());
             //go through each bit and push to vector
-            for(int j = 0; j <8; j++){
-                if(bits.test(j)){
-                    cells.push_back(Cell::ALIVE);
-                }else{
-                    cells.push_back(Cell::DEAD);
+            for (int j = 0; j < 8; j++)
+            {
+                if (!inputFile.eof())
+                {
+                    //if true/1 then set alive else set dead
+                    if (bits.test(j))
+                    {
+                        cells.push_back(Cell::ALIVE);
+                    }
+                    else
+                    {
+                        cells.push_back(Cell::DEAD);
+                    }
+                }
+                else
+                {
+                    throw std::runtime_error("ended early");
                 }
             }
         }
+
         //set the grid with vectors values
-        for(unsigned int i = 0; i < binary_grid.get_height();i++){
-            for(unsigned int j = 0; j < binary_grid.get_width();j++){
-                binary_grid.set(j,i,cells.at(j+width*i));
+        for (unsigned int y = 0; y < binary_grid.get_height(); y++)
+        {
+            for (unsigned int x = 0; x < binary_grid.get_width(); x++)
+            {
+                binary_grid.set(x, y, cells.at(x + width * y));
             }
         }
-        
+
         inputFile.close();
         return binary_grid;
     }
+}
 
 /**
  * Zoo::save_binary(path, grid)
@@ -350,45 +410,67 @@
  * @throws
  *      Throws std::runtime_error or sub-class if the file cannot be opened.
  */
-    void Zoo::save_binary(std::string path, Grid grid){
-       
-        std::ofstream outputFile(path);
+void Zoo::save_binary(std::string path, Grid grid)
+{
+
+    std::ofstream outputFile(path);
+    if (!outputFile)
+    {
+        throw std::runtime_error("directory doesnt exist");
+    }
+    else
+    {
         int width = grid.get_width();
         int height = grid.get_height();
         //put width and height in
-        outputFile.write((char*)&width,4);
-        outputFile.write((char*)&height,4);
+        outputFile.write((char *)&width, 4);
+        outputFile.write((char *)&height, 4);
         std::bitset<8> bits;
         int counter = 0;
         //loop through all values, if alive set nth value of bitset to 1 else 0
-        for(unsigned int i = 0; i < grid.get_height();i++){
-            for(unsigned int j = 0; j < grid.get_width();j++){ 
-                if(grid.get(j,i)==Cell::ALIVE){
-                    bits.set(counter,1); 
-                } else{
-                    bits.set(counter,0);
+        for (unsigned int y = 0; y < grid.get_height(); y++)
+        {
+            for (unsigned int x = 0; x < grid.get_width(); x++)
+            {
+                if (grid.get(x, y) == Cell::ALIVE)
+                {
+                    bits.set(counter, 1);
+                }
+                else
+                {
+                    bits.set(counter, 0);
                 }
                 //when counter is 7 the bitset is full, write it to file and reset counter
-                if (counter == 7){
-                    outputFile.write((char*)&bits,1);
-                    counter=0;
-                }else{
+                if (counter == 7)
+                {
+                    outputFile.write((char *)&bits, 1);
+                    counter = 0;
+                }
+                else
+                //otherwise increment counter
+                {
                     counter++;
                 }
             }
         }
-        //when you need to pad out the last bitset
-        if(counter != 0){
+
+        //when you need to pad out the end
+        if (counter != 0)
+        {
             //loop from wherever it stopped to the end
-            for(int i = counter;i<7;i++){
+            for (int i = counter; i < 7; i++)
+            {
                 //if the bitset is being padded with negative set it to 0 else 1
-                if(bits.test(counter-1)==0){
-                    bits.set(i,0);
-                }else{
-                    bits.set(i,1);
+                if (bits.test(counter - 1) == 0)
+                {
+                    bits.set(i, 0);
                 }
-                outputFile.write((char*)&bits,1);
+                else
+                {
+                    bits.set(i, 1);
+                }
+                outputFile.write((char *)&bits, 1);
             }
         }
     }
-
+}

@@ -20,17 +20,17 @@
  * A World holds two equally sized Grid objects for the current state and next state.
  *      - These buffers should be swapped using std::swap after each update step.
  */
-class World {
-    private:
-  
+class World
+{
+private:
     Grid current_grid;
     Grid next_grid;
     unsigned int count_neighbours(int x, int y, bool toroidal);
 
-    public:
+public:
     World();
     explicit World(unsigned int square_size);
-    World(unsigned int width,unsigned int height);
+    World(unsigned int width, unsigned int height);
     World(Grid initial_state);
     ~World();
 
@@ -39,13 +39,16 @@ class World {
     const unsigned int get_total_cells() const;
     const unsigned int get_alive_cells() const;
     const unsigned int get_dead_cells() const;
-    const Grid& get_state()const;
+
+    const Grid &get_state() const;
+
     void resize(unsigned int square_size);
     void resize(unsigned int new_width, unsigned int new_height);
+
     void step(bool toroidal = false);
+    
     void advance(unsigned int steps, bool toroidal = false);
     // How to draw an owl:
     //      Step 1. Draw a circle.
     //      Step 2. Draw the rest of the owl.
-
 };

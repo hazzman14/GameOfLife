@@ -17,26 +17,27 @@
 /**
  * A Cell is a char limited to two named values for Cell::DEAD and Cell::ALIVE.
  */
-enum Cell : char {
-    DEAD  = ' ',
+enum Cell : char
+{
+    DEAD = ' ',
     ALIVE = '#'
 };
 
 /**
  * Declare the structure of the Grid class for representing a 2d grid of cells.
  */
-class Grid {
-    private:
+class Grid
+{
+private:
     unsigned int width;
     unsigned int height;
     std::vector<Cell> cell_grid;
-    const unsigned int get_index(unsigned int x, unsigned int y)const;
-    
-    
-    public:
+    const unsigned int get_index(unsigned int x, unsigned int y) const;
+
+public:
     Grid();
     explicit Grid(unsigned int square_size);
-    Grid(unsigned int width,unsigned int height);
+    Grid(unsigned int width, unsigned int height);
     ~Grid();
 
     const unsigned int get_width() const;
@@ -46,22 +47,22 @@ class Grid {
     const unsigned int get_dead_cells() const;
 
     void resize(unsigned int square_size);
-    void resize(unsigned int width,unsigned int height);
+    void resize(unsigned int width, unsigned int height);
 
-    const Cell get(unsigned int x, unsigned int y)const;
+    const Cell get(unsigned int x, unsigned int y) const;
 
     void set(unsigned int x, unsigned int y, Cell value);
 
-    Cell& operator()(unsigned int x, unsigned int y);
-    const Cell& operator()(unsigned int x, unsigned int y)const;
+    Cell &operator()(unsigned int x, unsigned int y);
+    const Cell &operator()(unsigned int x, unsigned int y) const;
 
-    const Grid crop(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1)const;
+    const Grid crop(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1) const;
 
-    void merge(Grid other,int x0, int y0, bool alive_only = false);
+    void merge(Grid other, int x0, int y0, bool alive_only = false);
 
     const Grid rotate(int _rotation) const;
 
-    friend std::ostream& operator<<(std::ostream& os, const Grid& grid);
+    friend std::ostream &operator<<(std::ostream &os, const Grid &grid);
     // How to draw an owl:
     //     Step 1. Draw a circle.
     //     Step 2. Draw the rest of the owl.
