@@ -472,10 +472,7 @@ void World::step(bool toroidal)
         }
     }
     //swap grids
-    Grid temp;
-    temp = current_grid;
-    current_grid = next_grid;
-    next_grid = temp;
+    std::swap(current_grid,next_grid);
 }
 
 /**
