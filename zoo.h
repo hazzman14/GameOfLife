@@ -9,6 +9,7 @@
  * @date March, 2020
  */
 #pragma once
+
 // Add the minimal number of includes you need in order to declare the namespace.
 // #include ...
 #include "grid.h"
@@ -22,11 +23,11 @@ Grid glider();
 Grid r_pentomino();
 Grid light_weight_spaceship();
 
-Grid load_ascii(std::string path);
-void save_ascii(std::string path, Grid grid);
+Grid load_ascii(const std::string path);
+void save_ascii(const std::string path, const Grid grid);
 
-Grid load_binary(std::string path);
-void save_binary(std::string path, Grid grid);
+Grid load_binary(const std::string path);
+void save_binary(const std::string path, const Grid grid);
 
 // How to draw an owl:
 //      Step 1. Draw a circle.
